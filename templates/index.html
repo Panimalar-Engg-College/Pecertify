@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificate Generate | PEC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+   
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'index' %}">Panimalar Engineering College</a>
+            {% if user.is_authenticated %}
+            
+
+            <button type="button" class="btn btn-danger"><a href="{% url 'ulogout' %}" style="text-decoration: none; color:white;">Logout</a></button>
+            {% else %}
+
+
+            {% endif %}
+        </div>
+    </nav>
+
+{% if user.is_authenticated %} 
+<h2>Upload the Excel File with the Certificate Data</h2>
+<div style="width:400px; margin:0 auto;">
+    <br><br><br><br><br><br>
+<form method="POST" action="{% url 'generatecert' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Upload File</label>
+        <input accept=".csv" type="file" class="form-control" id="excel_file" name="excel_file" aria-describedby="emailHelp">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Generate</button>
+  </form>
+
+  <br><br><br><br><br>
+    <h2>Download the Generated Certificates</h2>
+    <br><br>
+    <button type="button" class="btn btn-primary"><a href="{% url 'downloadcert' %}" style="text-decoration: none; color:white;">Download</a></button>
+</div>
+{% else %}
+
+    <div style="width:400px; margin:0 auto;">
+    <br><br><br><br><br><br>
+        <form method="POST" action="{% url 'ulogin' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+    </div>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    
+  </body>
+</html>
