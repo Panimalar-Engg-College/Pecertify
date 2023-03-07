@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from django.core.files.storage import FileSystemStorage
 from random import randint
 from db.models import *
 from util.func import generate_cert
 import csv, io
-from io import StringIO, BytesIO
+from io import BytesIO
+from django.contrib import messages
 
 def index(request):
     return render(request,'index.html')
@@ -19,13 +19,16 @@ def ulogin(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, 'Logged in Successfully')
             return redirect('index')
         else:
+            messages.error(request, 'Invalid Credentials')
             return redirect('index')
     return redirect('index')
 
 def ulogout(request):
     logout(request)
+    messages.success(request, 'Logged out Successfully')
     return redirect('index')
 
 def generatecert(request):
@@ -43,6 +46,7 @@ def generatecert(request):
             cert.CreatedBy = request.user
             cert.save()
             generate_cert(i['StudentName']).save('media/certificates/'+str(cert.id)+'.png')
+        messages.success(request, 'Certificates Generated Successfully')
         return redirect('index')
     return redirect('index')
 
@@ -56,4 +60,5 @@ def downloadcert(request):
     zipObj.close()
     response = HttpResponse(f.getvalue(), content_type="application/zip")
     response['Content-Disposition'] = 'attachment; filename=certificates.zip'
+    messages.success(request, 'Certificates Downloaded Successfully')
     return response
