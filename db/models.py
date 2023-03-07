@@ -25,7 +25,5 @@ class Certificate(models.Model):
     CreatedBy = models.ForeignKey(User, on_delete=models.CASCADE)
     Datetime = models.DateTimeField(auto_now_add=True)
 
-class FileUpload(models.Model):
-    file = models.FileField(upload_to='files/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.StudentName
