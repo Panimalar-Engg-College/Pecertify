@@ -33,3 +33,8 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
     urlpatterns += staticfiles_urlpatterns()
+
+handler404 = 'pecertify.views.errorhandler'
+handler500 = 'pecertify.views.errorhandler'
+handler403 = 'pecertify.views.errorhandler'
+handler400 = 'pecertify.views.errorhandler'
