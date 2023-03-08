@@ -33,9 +33,6 @@ def ulogout(request):
 
 def generatecert(request):
     if request.method == 'POST':
-        if request.POST['excel_file']=="":
-            messages.error(request, 'Please Upload a CSV File')
-            return redirect('index')
         excel_file = request.FILES['excel_file']
         file = excel_file.read().decode('utf-8')
         reader = csv.DictReader(io.StringIO(file))
@@ -54,21 +51,14 @@ def generatecert(request):
     return redirect('index')
 
 def downloadcert(request):
-    if Certificate.objects.filter(CreatedBy=request.user).exists():
-        from zipfile import ZipFile
-        f = BytesIO()
-        zipObj = ZipFile(f, 'w')
-        for i in Certificate.objects.filter(CreatedBy=request.user):
-            file = 'media/certificates/'+str(i.id)+'.png'
-            zipObj.write(file, arcname=f'{i.id}.png')
-        zipObj.close()
-        response = HttpResponse(f.getvalue(), content_type="application/zip")
-        response['Content-Disposition'] = 'attachment; filename=certificates.zip'
-        return response
-    else:
-        messages.error(request, 'No Certificates Found for Download')
-        return redirect('index')
-
-def errorhandler(request,exception=None):
-    messages.error(request, 'Something Went Wrong, Contact Admin.\n\nSorry for the Inconvenience')
-    return redirect('index')
+    from zipfile import ZipFile
+    f = BytesIO()
+    zipObj = ZipFile(f, 'w')
+    for i in Certificate.objects.filter(CreatedBy=request.user):
+        file = 'media/certificates/'+str(i.id)+'.png'
+        zipObj.write(file, arcname=f'{i.id}.png')
+    zipObj.close()
+    response = HttpResponse(f.getvalue(), content_type="application/zip")
+    response['Content-Disposition'] = 'attachment; filename=certificates.zip'
+    messages.success(request, 'Certificates Downloaded Successfully')
+    return response
