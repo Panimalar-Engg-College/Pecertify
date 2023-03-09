@@ -7,18 +7,14 @@
     <title>Certificate Generate | PEC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
-    <style>
-
-    </style>
-
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark" style="height: 80px;">
         <div class="container-fluid">
             <a class="navbar-brand" style="font-size: 25px;" href="{% url 'index' %}"><img src="https://i.ibb.co/tPWk6xL/Untitled-design.png" alt="Untitled-design" style="width: 55px;" border="0">Panimalar Engineering College</a>
-
-            {% if user.is_authenticated %}
             
+            {% if user.is_authenticated %}
+            <h6 style="color:white; text-align:centre;">{{user.first_name}}</h6>
 
             <button type="button" class="btn btn-danger"><a href="{% url 'ulogout' %}" style="text-decoration: none; color:white;">Logout</a></button>
             {% else %}
@@ -40,7 +36,7 @@
   <img src="https://i.ibb.co/PtWQ3FP/PEC.png" alt="PEC" style="width: 300px;" border="0">
 <div style="width:400px; margin:0 auto; ">
     <div style=" border: 1px solid rgb(92, 92, 92); padding: 20px; border-radius: 5px;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-<form method="POST" action="{% url 'generatecert' %}" enctype="multipart/form-data">
+      <form method="POST" action="{% url 'generatecert' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Upload File</label>
@@ -48,8 +44,6 @@
         <div style="height:5px;"> </div>
         <div style="width:100%; font-size: 0.75rem; display:flex; justify-content: center; align-items: center;"> <span style="  background-color: rgb(61, 60, 60); color:white; padding-left:7px; padding-right:7px; border-radius: 50%; border: none">i</span> &nbsp; Upload Microsoft Excel CSV file</div>
       </div>
-      
-      
       <button type="submit" class="btn btn-primary">Generate</button>
   </form>
   </div>

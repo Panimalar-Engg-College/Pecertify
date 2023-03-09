@@ -33,24 +33,26 @@ def ulogout(request):
 
 def generatecert(request):
     if request.method == 'POST':
-        if request.POST['excel_file']=="":
-            messages.error(request, 'Please Upload a CSV File')
+        try:
+            if request.POST['excel_file']=="":
+                messages.error(request, 'Please Upload a CSV File')
+                return redirect('index')
+        except:
+            excel_file = request.FILES['excel_file']
+            file = excel_file.read().decode('utf-8')
+            reader = csv.DictReader(io.StringIO(file))
+            data = [line for line in reader]
+            
+            for i in data:
+                cert = Certificate()
+                cert.StudentName = i['StudentName']
+                cert.StudentEmail = i['StudentEmail']
+                cert.StudentCollege = i['StudentCollege']
+                cert.CreatedBy = request.user
+                cert.save()
+                generate_cert(i['StudentName']).save('media/certificates/'+str(cert.id)+'.png')
+            messages.success(request, 'Certificates Generated Successfully')
             return redirect('index')
-        excel_file = request.FILES['excel_file']
-        file = excel_file.read().decode('utf-8')
-        reader = csv.DictReader(io.StringIO(file))
-        data = [line for line in reader]
-        
-        for i in data:
-            cert = Certificate()
-            cert.StudentName = i['StudentName']
-            cert.StudentEmail = i['StudentEmail']
-            cert.StudentCollege = i['StudentCollege']
-            cert.CreatedBy = request.user
-            cert.save()
-            generate_cert(i['StudentName']).save('media/certificates/'+str(cert.id)+'.png')
-        messages.success(request, 'Certificates Generated Successfully')
-        return redirect('index')
     return redirect('index')
 
 def downloadcert(request):
