@@ -60,18 +60,20 @@
     <div class="info_section" style="width:100%; height:70px;  border-radius: 8px; padding: 10px; background-color: rgb(238, 238, 238); display: flex; justify-content: center; align-items: center;" ><div style="display:flex;"><p style="font-weight: 700;">Note:</p> &nbsp; &nbsp; <p style="width: 300px;">Clicking "Download" downloads all the previous certificates as well.</p></div> </div>
     <br>
     
-    <button style=" border: none; background-color: transparent; display: flex; justify-content: center; align-items: center; flex-direction: row;" onclick="document.getElementById('instructions').style.display = 'flex'"><div style="width:100%; font-size: 0.75rem; display:flex; justify-content: center; align-items: center;"> <span style="  background-color: rgb(61, 60, 60); color:white; padding-left:7px; padding-right:7px; border-radius: 50%; border: none">i</span> &nbsp; <p>Instructions</p></div></button>
+    <button style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; margin: 0 auto;" onclick="document.getElementById('instructions').style.display = 'flex'"><p style=" font-size: 0.75rem; background-color: rgb(61, 60, 60); color:white; width:17px; border-radius: 50%; border: none">i</p> &nbsp; <p style="font-size: 0.75rem;" >Instructions</p></button>
   
-    <div class="instructions" id="instructions" style="display: none; flex-direction: column; justify-content: center; align-items: center; width: 600px; z-index: 2; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 8px; border: 1px solid rgb(92, 92, 92); margin: 0 auto; height: 70vh; position: absolute; top:calc(70vh - 530px); left:calc(50vw - 300px); background-color: white;">
+    <div class="instructions" id="instructions" style=" background-color: rgb(58, 62, 66); display: none; flex-direction: column; justify-content: center; align-items: center; width: 600px; z-index: 2; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 8px; border: 1px solid rgb(92, 92, 92); margin: 0 auto; height: 70vh; position: absolute; top:calc(70vh - 530px); left:calc(50vw - 300px);">
     
     
-      <div><h2>Instructions</h2></div>
+      <div><h2 style="color:white;">Instructions</h2></div>
 
-      <div style=" padding: 10px; max-height:  calc(70vh - 110px); min-height: calc(70vh - 110px);">
+      <div style="border-radius: 8px; background-color:white; padding: 10px; max-height:  calc(70vh - 110px); width: 570px; min-height: calc(70vh - 110px);  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 1px solid black;">
+
+        
 
       </div>
 
-      <button type="submit" class="btn btn-primary" onclick="document.getElementById('instructions').style.display = 'none'">Close</button>
+      <button style="margin-top:8px;" type="submit" class="btn btn-primary" onclick="document.getElementById('instructions').style.display = 'none'">Close</button>
     
     
     </div>
