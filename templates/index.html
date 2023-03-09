@@ -1,108 +1,220 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Certificate Generate | PEC</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
-  </head>
-  <body>
-    <nav class="navbar navbar-dark bg-dark" style="height: 80px;">
-        <div class="container-fluid">
-            <a class="navbar-brand" style="font-size: 25px;" href="{% url 'index' %}"><img src="https://i.ibb.co/tPWk6xL/Untitled-design.png" alt="Untitled-design" style="width: 55px;" border="0">Panimalar Engineering College</a>
-            
-            {% if user.is_authenticated %}
-            <h6 style="color:white; text-align:centre;">{{user.first_name}}</h6>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Certificate Generate | PEC</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"/>
+	</head>
 
-            <button type="button" class="btn btn-danger"><a href="{% url 'ulogout' %}" style="text-decoration: none; color:white;">Logout</a></button>
-            {% else %}
+	<body>
+		<nav class="navbar navbar-dark bg-dark" style="height: 80px">
+			<div class="container-fluid">
+				<a class="navbar-brand" style="font-size: 25px" href="{% url 'index' %}"
+					><img src="https://i.ibb.co/tPWk6xL/Untitled-design.png" alt="Untitled-design" style="width: 55px" border="0" />Panimalar Engineering
+					College</a
+				>
 
-            <img src="https://i.ibb.co/PtWQ3FP/PEC.png" alt="PEC" style="width: 300px;" border="0">
-
-            {% endif %}
-        </div>
-    </nav>
-    {% for message in messages %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="width: 400px; z-index: 3; margin: 0 auto; position: absolute; top: 100px; left: calc(50vw - 200px);">
-      {{message}}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    {% endfor %}
-
-{% if user.is_authenticated %} 
-<div style="display:flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; min-height:calc(100vh - 130px);">
-  <img src="https://i.ibb.co/PtWQ3FP/PEC.png" alt="PEC" style="width: 300px;" border="0">
-<div style="width:400px; margin:0 auto; ">
-    <div style=" border: 1px solid rgb(92, 92, 92); padding: 20px; border-radius: 5px;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-      <form method="POST" action="{% url 'generatecert' %}" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Upload File</label>
-        <input accept=".csv" type="file" class="form-control" id="excel_file" name="excel_file" aria-describedby="emailHelp">
-        <div style="height:5px;"> </div>
-        <div style="width:100%; font-size: 0.75rem; display:flex; justify-content: center; align-items: center;"> <span style="  background-color: rgb(61, 60, 60); color:white; padding-left:7px; padding-right:7px; border-radius: 50%; border: none">i</span> &nbsp; Upload Microsoft Excel CSV file</div>
+				{% if user.is_authenticated %}
+          <h6 style="color: white; text-align: centre">{{user.first_name}}</h6>
+          <button type="button" class="btn btn-danger"><a href="{% url 'ulogout' %}" style="text-decoration: none; color: white">Logout</a></button>
+				{% else %}
+				  <img src="https://i.ibb.co/PtWQ3FP/PEC.png" alt="PEC" style="width: 300px" border="0" />
+				{% endif %}
+			</div>
+		</nav>
+		{% for message in messages %}
+      <div
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+        style="width: 400px; z-index: 3; margin: 0 auto; position: absolute; top: 100px; left: calc(50vw - 200px)"
+      >
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      <button type="submit" class="btn btn-primary">Generate</button>
-  </form>
-  </div>
-    <div style="padding-top: 20px; width: 400px; display: flex; justify-content: end;">
-    <button type="button" class="btn btn-primary" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" ><a href="{% url 'downloadcert' %}" style="text-decoration: none; color:white; float: left; display: flex; align-items: center;"><img src="https://i.ibb.co/mv0r91z/icons8-downloading-updates-24.png" style="width:20px;">&nbsp;Download</a></button>
-    </div>
-    <br>
-    <div class="info_section" style="width:100%; height:70px;  border-radius: 8px; padding: 10px; background-color: rgb(238, 238, 238); display: flex; justify-content: center; align-items: center;" ><div style="display:flex;"><p style="font-weight: 700;">Note:</p> &nbsp; &nbsp; <p style="width: 300px;">Clicking "Download" downloads all the previous certificates as well.</p></div> </div>
-    <br>
-    
-    <button style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; margin: 0 auto;" onclick="document.getElementById('instructions').style.display = 'flex'"><p style=" font-size: 0.75rem; background-color: rgb(61, 60, 60); color:white; width:17px; border-radius: 50%; border: none">i</p> &nbsp; <p style="font-size: 0.75rem;" >Instructions</p></button>
-  
-    <div class="instructions" id="instructions" style=" background-color: rgb(58, 62, 66); display: none; flex-direction: column; justify-content: center; align-items: center; width: 600px; z-index: 2; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 8px; border: 1px solid rgb(92, 92, 92); margin: 0 auto; height: 70vh; position: absolute; top:calc(70vh - 530px); left:calc(50vw - 300px);">
-    
-    
-      <div><h2 style="color:white;">Instructions</h2></div>
+		{% endfor %}
 
-      <div style="border-radius: 8px; background-color:white; padding: 10px; max-height:  calc(70vh - 110px); width: 570px; min-height: calc(70vh - 110px);  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border: 1px solid black;">
+    {% if user.is_authenticated %}
+		<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; min-height: calc(100vh - 130px)">
+			<img src="https://i.ibb.co/PtWQ3FP/PEC.png" alt="PEC" style="width: 300px" border="0" />
+			<div style="width: 400px; margin: 0 auto">
+			<div
+				style="
+				border: 1px solid rgb(92, 92, 92);
+				padding: 20px;
+				border-radius: 5px;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				"
+			>
+				<form method="POST" action="{% url 'generatecert' %}" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="mb-3">
+					<label for="exampleInputEmail1" class="form-label">Upload File</label>
+					<input accept=".csv" type="file" class="form-control" id="excel_file" name="excel_file" aria-describedby="emailHelp" />
+					<div style="height: 5px"></div>
+					<div style="width: 100%; font-size: 0.75rem; display: flex; justify-content: center; align-items: center">
+					<span
+						style="
+						background-color: rgb(61, 60, 60);
+						color: white;
+						padding-left: 7px;
+						padding-right: 7px;
+						border-radius: 50%;
+						border: none;
+						"
+						>i</span
+					>
+					&nbsp; Upload Microsoft Excel CSV file
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Generate</button>
+				</form>
+			</div>
+			<div style="padding-top: 20px; width: 400px; display: flex; justify-content: end">
+				<button type="button" class="btn btn-primary" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+				<a href="{% url 'downloadcert' %}" style="text-decoration: none; color: white; float: left; display: flex; align-items: center"
+					><img src="https://i.ibb.co/mv0r91z/icons8-downloading-updates-24.png" style="width: 20px" />&nbsp;Download</a
+				>
+				</button>
+			</div>
+			<br />
+			<div
+				class="info_section"
+				style="
+				width: 100%;
+				height: 70px;
+				border-radius: 8px;
+				padding: 10px;
+				background-color: rgb(238, 238, 238);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				"
+			>
+				<div style="display: flex">
+				<p style="font-weight: 700">Note:</p>
+				&nbsp; &nbsp;
+				<p style="width: 300px">Clicking "Download" downloads all the previous certificates as well.</p>
+				</div>
+			</div>
+			<br />
 
-        
+			<button
+				style="display: flex; justify-content: center; align-items: center; background-color: transparent; border: none; margin: 0 auto"
+				onclick="document.getElementById('instructions').style.display = 'flex'"
+			>
+				<p style="font-size: 0.75rem; background-color: rgb(61, 60, 60); color: white; width: 17px; border-radius: 50%; border: none">i</p>
+				&nbsp;
+				<p style="font-size: 0.75rem">Instructions</p>
+			</button>
 
-      </div>
+			<div
+				class="instructions"
+				id="instructions"
+				style="
+				background-color: rgb(58, 62, 66);
+				display: none;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				width: 600px;
+				z-index: 2;
+				box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				border-radius: 8px;
+				border: 1px solid rgb(92, 92, 92);
+				margin: 0 auto;
+				height: 70vh;
+				position: absolute;
+				top: calc(70vh - 530px);
+				left: calc(50vw - 300px);
+				"
+			>
+				<div><h2 style="color: white">Instructions</h2></div>
 
-      <button style="margin-top:8px;" type="submit" class="btn btn-primary" onclick="document.getElementById('instructions').style.display = 'none'">Close</button>
-    
-    
-    </div>
+				<div
+				style="
+					border-radius: 8px;
+					background-color: white;
+					padding: 10px;
+					max-height: calc(70vh - 110px);
+					width: 570px;
+					min-height: calc(70vh - 110px);
+					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+					border: 1px solid black;
+				"
+				></div>
 
-  </div>
-  </div>
-  
-{% else %}
-<div style="display:flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; min-height:calc(100vh - 130px);">
+				<button
+				style="margin-top: 8px"
+				type="submit"
+				class="btn btn-primary"
+				onclick="document.getElementById('instructions').style.display = 'none'"
+				>
+				Close
+				</button>
+			</div>
+			</div>
+		</div>
 
-  <h2 style="font-weight: 700; color: rgb(75, 75, 75);">LOGIN</h2>
-  <div style=" border: 1px solid rgb(92, 92, 92); padding: 20px; border-radius: 5px;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-    <div style="width:300px; margin:0 auto; ">
-        <form method="POST" action="{% url 'ulogin' %}">
-            {% csrf_token %}
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
-          </div>
-    </div>
-    </div>
-    {% endif %}
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
-    
-    <footer style="width: 100%; background-color: rgb(33,37,41); color:white; padding:10px; text-align: center; height: 50px; display: flex; justify-content: center; align-items: center;">
-      Developed by &nbsp; <a href="https://coding.psdc.org.in/" style="text-decoration: none;">The Coding Society</a>
-    </footer>
+		{% else %}
+			<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; min-height: calc(100vh - 130px)">
+				<h2 style="font-weight: 700; color: rgb(75, 75, 75)">LOGIN</h2>
+				<div
+				style="
+					border: 1px solid rgb(92, 92, 92);
+					padding: 20px;
+					border-radius: 5px;
+					box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				"
+				>
+				<div style="width: 300px; margin: 0 auto">
+					<form method="POST" action="{% url 'ulogin' %}">
+					{% csrf_token %}
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp" />
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputPassword1" class="form-label">Password</label>
+						<input type="password" class="form-control" id="password" name="password" />
+					</div>
+					<button type="submit" class="btn btn-primary">Login</button>
+					</form>
+				</div>
+				</div>
+			</div>
+	{% endif %}
 
-  </body>
+	
+		<script
+			src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+			integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+			integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+			crossorigin="anonymous"
+		></script>
+
+		
+		<footer
+			style="
+				width: 100%;
+				background-color: rgb(33, 37, 41);
+				color: white;
+				padding: 10px;
+				text-align: center;
+				height: 50px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			"
+		>
+			Developed by &nbsp; <a href="https://coding.psdc.org.in/" style="text-decoration: none">The Coding Society</a>
+		</footer>
+	</body>
 </html>
