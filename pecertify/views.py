@@ -42,17 +42,20 @@ def generatecert(request):
             file = excel_file.read().decode('utf-8')
             reader = csv.DictReader(io.StringIO(file))
             data = [line for line in reader]
-            
-            for i in data:
-                cert = Certificate()
-                cert.StudentName = i['StudentName']
-                cert.StudentEmail = i['StudentEmail']
-                cert.StudentCollege = i['StudentCollege']
-                cert.CreatedBy = request.user
-                cert.save()
-                generate_cert(i['StudentName']).save('media/certificates/'+str(cert.id)+'.png')
-            messages.success(request, 'Certificates Generated Successfully')
-            return redirect('index')
+            try:
+                for i in data:
+                    cert = Certificate()
+                    cert.StudentName = i['StudentName']
+                    cert.StudentEmail = i['StudentEmail']
+                    cert.StudentCollege = i['StudentCollege']
+                    cert.CreatedBy = request.user
+                    cert.save()
+                    generate_cert(i['StudentName']).save('media/certificates/'+str(cert.id)+'.png')
+                messages.success(request, 'Certificates Generated Successfully')
+                return redirect('index')
+            except:
+                messages.error(request, 'Please Upload a Valid CSV File with Correct Column Names.')
+                return redirect('index')
     return redirect('index')
 
 def downloadcert(request):
