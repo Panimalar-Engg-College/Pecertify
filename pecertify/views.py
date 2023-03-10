@@ -42,15 +42,26 @@ def generatecert(request):
             file = excel_file.read().decode('utf-8')
             reader = csv.DictReader(io.StringIO(file))
             data = [line for line in reader]
+            dept=request.user.department.department
             try:
                 for i in data:
-                    cert = Certificate()
-                    cert.StudentName = i['StudentName']
-                    cert.StudentEmail = i['StudentEmail']
-                    cert.StudentCollege = i['StudentCollege']
-                    cert.CreatedBy = request.user
-                    cert.save()
-                    generate_cert(i['StudentName']).save('media/certificates/'+str(cert.id)+'.png')
+                    try:
+                        cert = Certificate()
+                        cert.Name = i['Name']
+                        cert.College = i['College']
+                        cert.Event = i['Event']
+                        cert.ID = i['ID']
+                        cert.CreatedBy = request.user
+                        cert.save()
+                    except:
+                        messages.error(request, 'Error Saving Certificates to Database')
+                        return redirect('index')
+                    print()
+                    try:
+                        generate_cert(i['Name'],i['College'],i['Event'],dept).save('media/certificates/'+str(cert.id)+'.png')
+                    except:
+                        messages.error(request, 'Error Generating Certificates')
+                        return redirect('index')
                 messages.success(request, 'Certificates Generated Successfully')
                 return redirect('index')
             except:

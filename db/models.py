@@ -19,9 +19,10 @@ class Department(models.Model):
     department = models.CharField(max_length=100,choices=Departments)
 
 class Certificate(models.Model):
-    StudentName = models.CharField(max_length=100)
-    StudentEmail = models.EmailField(max_length=100)
-    StudentCollege = models.CharField(max_length=100)
+    ID = models.CharField(max_length=100, unique=True, primary_key=True)
+    Name = models.CharField(max_length=100)
+    College = models.EmailField(max_length=100)
+    Event = models.CharField(max_length=100)
     CreatedBy = models.ForeignKey(User, on_delete=models.CASCADE)
     Datetime = models.DateTimeField(auto_now_add=True)
 

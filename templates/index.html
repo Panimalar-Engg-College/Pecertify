@@ -74,7 +74,7 @@
 				</form>
 			</div>
 			<div style="padding-top: 20px; width: 400px; display: flex; justify-content: end">
-				<button type="button" class="btn btn-primary" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+				<button id="down" type="button" class="btn btn-primary" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
 				<a href="{% url 'downloadcert' %}" style="text-decoration: none; color: white; float: left; display: flex; align-items: center"
 					><img src="https://i.ibb.co/mv0r91z/icons8-downloading-updates-24.png" style="width: 20px" />&nbsp;Download</a
 				>
@@ -175,7 +175,7 @@
 					{% csrf_token %}
 					<div class="mb-3">
 						<label for="exampleInputEmail1" class="form-label">Email address</label>
-						<input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp" />
+						<input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" />
 					</div>
 					<div class="mb-3">
 						<label for="exampleInputPassword1" class="form-label">Password</label>
@@ -205,6 +205,7 @@
 				var but = document.getElementById("generatecert");
 				but.disabled = true;
 				but.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>  Generating...';
+				document.getElementById("down").disabled = true;
 			}
 		</script>
 

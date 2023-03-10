@@ -7,7 +7,7 @@ font_colour = "#6d412a"
 template = Image.open(r'util\template.png')
 WIDTH, HEIGHT = template.size
 
-def generate_cert(name):
+def generate_cert(name,college,event,dept):
     image_source = Image.open(r'util\template.png')
     draw = ImageDraw.Draw(image_source)
     name_width = draw.textlength(name, font = font_file)
