@@ -39,38 +39,40 @@ def generatecert(request):
                 return redirect('index')
         except:
             excel_file = request.FILES['excel_file']
+            dept = request.POST['dept']
             file = excel_file.read().decode('utf-8')
             reader = csv.DictReader(io.StringIO(file))
             data = [line for line in reader]
-            dept=request.user.department.department
-            try:
-                for i in data:
-                    try:
-                        cert = Certificate()
-                        cert.Name = i['Name']
-                        cert.College = i['College']
-                        cert.Event = i['Event']
-                        cert.ID = i['ID']
-                        cert.CreatedBy = request.user
-                        cert.save()
-                    except:
-                        messages.error(request, 'Error Saving Certificates to Database')
-                        return redirect('index')
-                    print()
-                    try:
-                        generate_cert(i['Name'],i['College'],i['Event'],dept).save('media/certificates/'+str(cert.id)+'.png')
-                    except:
-                        messages.error(request, 'Error Generating Certificates')
-                        return redirect('index')
-                messages.success(request, 'Certificates Generated Successfully')
-                return redirect('index')
-            except:
-                messages.error(request, 'Please Upload a Valid CSV File with Correct Column Names.')
-                return redirect('index')
+            # try:
+            for i in data:
+                # try:
+                cert = Certificate()
+                cert.Name = i['Name']
+                cert.College = i['College']
+                cert.Event = i['Event']
+                cert.ID = i['ID']
+                cert.CreatedBy = request.user
+                cert.Dept = dept
+                cert.save()
+                # except:
+                #     messages.error(request, 'Error Saving Certificates to Database')
+                #     return redirect('index')
+                # print()media\ECE
+                # try:
+                symp = SymposiumInfo.objects.get(dept=dept)
+                generate_cert(i['Name'],i['College'],i['Event'],symp.dept_full_name,symp.symp_name,i['Date'],symp.convenor).save(f'media/{dept}/'+str(cert.ID)+'.png')
+                # except:
+                #     messages.error(request, 'Error Generating Certificates')
+                #     return redirect('index')
+            messages.success(request, 'Certificates Generated Successfully')
+            return redirect('index')
+            # except:
+            #     messages.error(request, 'Please Upload a Valid CSV File with Correct Column Names.')
+            #     return redirect('index')
     return redirect('index')
 
 def downloadcert(request):
-    if Certificate.objects.filter(CreatedBy=request.user).exists():
+    if Certificate.objects.filter(Dept="ECE").exists():
         from zipfile import ZipFile
         f = BytesIO()
         zipObj = ZipFile(f, 'w')
